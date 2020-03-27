@@ -28,6 +28,9 @@ namespace TankGame
 		{
 			//Add this to list in game manager
 			GameManager.objects.Add(this);
+			//Set local to 0
+			local.point = new MthLib.Vector3();
+			local.rotation = 0f;
 
 			//If the object has a parent, add this object to its children
 			if (parent != null)

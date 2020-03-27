@@ -21,19 +21,41 @@ namespace TankGame
 		static void Main()
 		{
 			//Set up window
-			rl.Raylib.InitWindow(500, 500, "Tank Game");
+			rl.Raylib.InitWindow(650, 650, "Tank Game");
 			rl.Raylib.SetTargetFPS(60);
 
-			while(rl.Raylib.WindowShouldClose())
-			{
 
+
+
+			while(!rl.Raylib.WindowShouldClose())
+			{
+				float deltaTime = rl.Raylib.GetFrameTime();
+
+				foreach (GameObject obj in objects)
+					obj.Update(deltaTime);
+
+
+
+
+
+				//Clear background and show fps before drawing objects
+				rl.Raylib.BeginDrawing();
+				rl.Raylib.ClearBackground(rl.Color.WHITE);
+				rl.Raylib.DrawFPS(10, 10);
+
+				foreach (GameObject obj in coreObjects)
+					obj.Draw();
+
+				rl.Raylib.EndDrawing();
 			}
 
 
 
+			//Free all memory before closing
+			foreach (GameObject obj in coreObjects)
+				obj.FreeMemory();
+			
 			rl.Raylib.CloseWindow();
-
-
 		}
 
 
