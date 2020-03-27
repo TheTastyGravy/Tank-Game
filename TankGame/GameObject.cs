@@ -21,16 +21,20 @@ namespace TankGame
 
 
 		/// <summary>
-		/// Instantiate the object. The image should be set imediatly after an object is created
+		/// Instantiate the object
 		/// </summary>
 		/// <param name="parent">The object this is a child of. Pass null if it has no parent</param>
-		public GameObject(GameObject parent)
+		/// <param name="image">The image this object should be displayed as</param>
+		public GameObject(GameObject parent, rl.Image image)
 		{
 			//Add this to list in game manager
 			GameManager.objects.Add(this);
 			//Set local to 0
 			local.point = new MthLib.Vector3();
 			local.rotation = 0f;
+
+			//Set image
+			this.image = rl.Raylib.LoadTextureFromImage(image);
 
 			//If the object has a parent, add this object to its children
 			if (parent != null)
