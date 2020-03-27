@@ -18,7 +18,11 @@ namespace TankGame
 		public Transform global;
 
 		public rl.Texture2D image;
-
+		//Used to determine what part of the image to draw
+		private readonly rl.Rectangle sourceRec;
+		//Used When drawing
+		private readonly rl.Vector2 imgSize;
+		
 
 		/// <summary>
 		/// Instantiate the object
@@ -30,12 +34,14 @@ namespace TankGame
 			//Add this to list in game manager
 			GameManager.objects.Add(this);
 			//Set local to 0
-			local.point = new MthLib.Vector3();
+			local.point = new MthLib.Vector3(0, 0, 0);
 			local.rotation = 0f;
 
-			//Set image
+			//Set image and relevant drawing values
 			this.image = rl.Raylib.LoadTextureFromImage(image);
-
+			imgSize = new rl.Vector2(this.image.width, this.image.height);
+			sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
+			
 			//If the object has a parent, add this object to its children
 			if (parent != null)
 			{
@@ -66,7 +72,7 @@ namespace TankGame
 				global = local;
 
 			//Draw object
-			rl.Raylib.DrawTextureEx(image, new rl.Vector2(global.point.x, global.point.y), global.rotation, 1f, rl.Color.WHITE);
+			rl.Raylib.DrawTexturePro(image, sourceRec, new rl.Rectangle(global.point.x, global.point.y, imgSize.x, imgSize.y), imgSize / 2, global.rotation, rl.Color.WHITE);
 
 			foreach (GameObject child in children)
 			{

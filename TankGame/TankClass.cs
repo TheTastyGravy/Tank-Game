@@ -27,10 +27,10 @@ namespace TankGame
 		{
 			//Turn left
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_A))
-				local.rotation += rotSpeed * deltaTime;
+				local.rotation -= rotSpeed * deltaTime;
 			//Turn right
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_D))
-				local.rotation -= rotSpeed * deltaTime;
+				local.rotation += rotSpeed * deltaTime;
 
 			//Fix rotation to not loop around
 			if (local.rotation < 0f)
