@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29911.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Raylib", "Raylib\Bindings\Raylib.shproj", "{F660FF67-D70E-4AE0-9080-D922243E9B6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TankGame", "TankGame\TankGame.csproj", "{4E2F15E9-4702-4A93-B59A-F51B02ED3170}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Raylib\Bindings\Raylib.projitems*{4e2f15e9-4702-4a93-b59a-f51b02ed3170}*SharedItemsImports = 4
+		Raylib\Bindings\Raylib.projitems*{f660ff67-d70e-4ae0-9080-d922243e9b6e}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E2F15E9-4702-4A93-B59A-F51B02ED3170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2F15E9-4702-4A93-B59A-F51B02ED3170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2F15E9-4702-4A93-B59A-F51B02ED3170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2F15E9-4702-4A93-B59A-F51B02ED3170}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCEC268A-5613-4612-9C56-5C9FF2871302}
+	EndGlobalSection
+EndGlobal
