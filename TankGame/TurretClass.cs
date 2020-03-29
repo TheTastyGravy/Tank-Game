@@ -6,11 +6,23 @@ using MthLib = MathLibrary;
 
 namespace TankGame
 {
-	class TurretClass
+	class TurretClass : GameObject
 	{
+		private readonly float rotSpeed = 20;
 
 
 
+
+
+		public TurretClass(GameObject parent, rl.Image image, float rotSpeed) : base(parent, image)
+		{
+			this.rotSpeed = rotSpeed;
+		}
+
+		public override void Update(float deltaTime)
+		{
+			
+		}
 
 
 	}
