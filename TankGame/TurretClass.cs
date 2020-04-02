@@ -9,11 +9,14 @@ namespace TankGame
 	class TurretClass : GameObject
 	{
 		private readonly float rotSpeed = 20;
+		//Because bultiple bullets will be created, load the image once and unload it at the end
+		private readonly rl.Image bulletImg;
 
 
-		public TurretClass(GameObject parent, rl.Image image, float rotSpeed) : base(parent, image)
+		public TurretClass(GameObject parent, rl.Image image, float rotSpeed, string bulletPath) : base(parent, image)
 		{
 			this.rotSpeed = rotSpeed;
+			this.bulletImg = rl.Raylib.LoadImage(GameManager.imageDir + bulletPath);
 
 			//Set origin to be at the base of the image
 			float x = image.width / 2f;
@@ -41,9 +44,7 @@ namespace TankGame
 			//Create bullet at the top of the barrel
 			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_SPACE))
 			{
-				rl.Image img = rl.Raylib.LoadImage(GameManager.imageDir + @"Bullets\bulletBeige.png");
-				GameObject bullet = new BulletClass(null, img, 250f, global.rotation);
-				rl.Raylib.UnloadImage(img);
+				GameObject bullet = new BulletClass(null, bulletImg, 250f, global.rotation);
 
 				MthLib.Vector3 offset = new MthLib.Vector3(0f, imgSize.y, 0f);
 				//Create rotation matrix
@@ -58,6 +59,13 @@ namespace TankGame
 
 		}
 
+
+		public override void FreeMemory()
+		{
+			//Unload the bullet image, then everything else
+			rl.Raylib.UnloadImage(bulletImg);
+			base.FreeMemory();
+		}
 
 	}
 }

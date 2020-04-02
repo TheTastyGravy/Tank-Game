@@ -70,10 +70,9 @@ namespace TankGame
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(600, 500);
 			
-
 			//Create turret object as a child of tank
 			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBeige.png");
-			new TurretClass(objects[0], img, 50);
+			new TurretClass(tank, img, 50, @"Bullets\bulletBeige.png");
 			rl.Raylib.UnloadImage(img);
 		}
 
