@@ -15,8 +15,6 @@ namespace TankGame
 		private readonly float rotSpeed = 20;
 
 
-
-
 		public TankClass(GameObject parent, rl.Image image, float moveSpeed, float rotSpeed) : base(parent, image)
 		{
 			this.moveSpeed = moveSpeed;
@@ -39,6 +37,8 @@ namespace TankGame
 				local.rotation -= 360f;
 			
 
+			//***** Change to use acceleration *****
+
 			MthLib.Vector3 move = new MthLib.Vector3();
 			//Forward
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_W))
@@ -54,13 +54,7 @@ namespace TankGame
 
 			//Rotate movement to be in the dirrection the tank is facing, and update local
 			local.point += rotMatrix * move;
-
-
-
 		}
-
-
-
 
 
 	}

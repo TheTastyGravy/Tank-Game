@@ -43,7 +43,7 @@ namespace TankGame
 			imgSize = new rl.Vector2(this.image.width, this.image.height);
 			sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
 
-			//If orgigin hasnt been set in the derived constructor, use center
+			//If origin hasnt been set in the derived constructor, use center
 			if (origin == null || origin == rl.Vector2.Zero)
 				origin = imgSize / 2;
 			
@@ -119,7 +119,7 @@ namespace TankGame
 	{
 		public MthLib.Vector3 point;
 		/// <summary>
-		/// The rotation in radians clockwise from up
+		/// The rotation in degrees clockwise from up
 		/// </summary>
 		public float rotation;
 	}

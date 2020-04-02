@@ -20,7 +20,6 @@ namespace TankGame
 		public static string imageDir;
 
 
-
 		static void Main()
 		{
 			//Set up window
@@ -37,9 +36,11 @@ namespace TankGame
 			{
 				float deltaTime = rl.Raylib.GetFrameTime();
 
-				foreach (GameObject obj in objects)
-					obj.Update(deltaTime);
-
+				//Foreach will result in an exception when something is added to the list, which happens while shooting, so for has to be used
+				for (int i = 0; i < objects.Count; i++)
+				{
+					objects[i].Update(deltaTime);
+				}
 
 				//Clear background and show fps before drawing objects
 				rl.Raylib.BeginDrawing();
@@ -66,15 +67,13 @@ namespace TankGame
 			//Create tank object, set its location, and add it to the nesessary lists
 			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
 			GameObject tank = new TankClass(null, img, 100, 50);
-			tank.SetLocation(600, 500);
-			objects.Add(tank);
-			coreObjects.Add(tank);
 			rl.Raylib.UnloadImage(img);
+			tank.SetLocation(600, 500);
+			
 
 			//Create turret object as a child of tank
 			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBeige.png");
-			GameObject turret = new TurretClass(objects[0], img, 50);
-			objects.Add(turret);
+			new TurretClass(objects[0], img, 50);
 			rl.Raylib.UnloadImage(img);
 		}
 

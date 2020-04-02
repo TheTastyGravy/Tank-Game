@@ -11,9 +11,6 @@ namespace TankGame
 		private readonly float rotSpeed = 20;
 
 
-
-
-
 		public TurretClass(GameObject parent, rl.Image image, float rotSpeed) : base(parent, image)
 		{
 			this.rotSpeed = rotSpeed;
@@ -26,6 +23,8 @@ namespace TankGame
 
 		public override void Update(float deltaTime)
 		{
+			//***** Change to look at mouse *****
+
 			//Turn left
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_Q))
 				local.rotation -= rotSpeed * deltaTime;
@@ -39,8 +38,24 @@ namespace TankGame
 			else if (local.rotation > 360f)
 				local.rotation -= 360f;
 
+			//Create bullet at the top of the barrel
+			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_SPACE))
+			{
+				rl.Image img = rl.Raylib.LoadImage(GameManager.imageDir + @"Bullets\bulletBeige.png");
+				GameObject bullet = new BulletClass(null, img, 250f, global.rotation);
+				rl.Raylib.UnloadImage(img);
 
-			//create bullet on space down
+				MthLib.Vector3 offset = new MthLib.Vector3(0f, imgSize.y, 0f);
+				//Create rotation matrix
+				MthLib.Matrix3 rot = new MthLib.Matrix3();
+				rot.SetRotateZ(global.rotation * (float)(Math.PI / 180f));
+				//Rotate the length of the barrel by its rotation to find the offset
+				offset = rot * offset;
+
+				bullet.SetLocation(global.point.x - offset.x, global.point.y - offset.y);
+			}
+
+
 		}
 
 
