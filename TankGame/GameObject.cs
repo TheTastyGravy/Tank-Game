@@ -21,7 +21,8 @@ namespace TankGame
 		//Used to determine what part of the image to draw
 		private readonly rl.Rectangle sourceRec;
 		//Used When drawing
-		private readonly rl.Vector2 imgSize;
+		protected readonly rl.Vector2 imgSize;
+		protected rl.Vector2 origin;
 		
 
 		/// <summary>
@@ -41,6 +42,10 @@ namespace TankGame
 			this.image = rl.Raylib.LoadTextureFromImage(image);
 			imgSize = new rl.Vector2(this.image.width, this.image.height);
 			sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
+
+			//If orgigin hasnt been set in the derived constructor, use center
+			if (origin == null || origin == rl.Vector2.Zero)
+				origin = imgSize / 2;
 			
 			//If the object has a parent, add this object to its children
 			if (parent != null)
@@ -72,7 +77,7 @@ namespace TankGame
 				global = local;
 
 			//Draw object
-			rl.Raylib.DrawTexturePro(image, sourceRec, new rl.Rectangle(global.point.x, global.point.y, imgSize.x, imgSize.y), imgSize / 2, global.rotation, rl.Color.WHITE);
+			rl.Raylib.DrawTexturePro(image, sourceRec, new rl.Rectangle(global.point.x, global.point.y, imgSize.x, imgSize.y), origin, global.rotation, rl.Color.WHITE);
 
 			foreach (GameObject child in children)
 			{
@@ -84,6 +89,14 @@ namespace TankGame
 			}
 		}
 		
+		/// <summary>
+		/// Set the local location of the object
+		/// </summary>
+		public void SetLocation(float x, float y)
+		{
+			local.point = new MthLib.Vector3(x, y, 0f);
+		}
+
 		/// <summary>
 		/// Release memory for this object and its children so it can be destroyed
 		/// </summary>
