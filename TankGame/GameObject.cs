@@ -34,9 +34,11 @@ namespace TankGame
 		{
 			//Add this to list in game manager
 			GameManager.objects.Add(this);
-			//Set local to 0
+			//Set local and global to 0
 			local.point = new MthLib.Vector3(0, 0, 0);
 			local.rotation = 0f;
+			global.point = new MthLib.Vector3(0, 0, 0);
+			global.rotation = 0f;
 
 			//Set image and relevant drawing values
 			this.image = rl.Raylib.LoadTextureFromImage(image);
@@ -108,6 +110,11 @@ namespace TankGame
 			{
 				child.FreeMemory();
 			}
+
+			//Remove the object from the object lists. The garbage collector will then release this memory
+			GameManager.objects.Remove(this);
+			if (!hasParent)
+				GameManager.coreObjects.Remove(this);
 		}
 	}
 

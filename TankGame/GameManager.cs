@@ -18,10 +18,18 @@ namespace TankGame
 
 		//Directory to the image folder
 		public static string imageDir;
+		//Min and max points of the screen
+		public static MthLib.Vector3[] screenBox = new MthLib.Vector3[2];
+
 
 
 		static void Main()
 		{
+			//***** Change to make window size dependant on screen size *****
+
+			screenBox[0] = new MthLib.Vector3(0, 0, 0);
+			screenBox[1] = new MthLib.Vector3(1200, 1000, 0);
+
 			//Set up window
 			rl.Raylib.InitWindow(1200, 1000, "Tank Game");
 			rl.Raylib.SetTargetFPS(60);
@@ -54,9 +62,9 @@ namespace TankGame
 			}
 			
 
-			//Free all memory before closing
-			foreach (GameObject obj in coreObjects)
-				obj.FreeMemory();
+			//Free all memory before closing. Because the object is removed from the list, 0 should always be used
+			for (int i = 0; i < coreObjects.Count; i++)
+				coreObjects[0].FreeMemory();
 			
 			rl.Raylib.CloseWindow();
 		}
