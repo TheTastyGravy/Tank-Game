@@ -44,7 +44,7 @@ namespace TankGame
 			//Create bullet at the top of the barrel
 			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_SPACE))
 			{
-				GameObject bullet = new BulletClass(null, bulletImg, 250f, global.rotation);
+				GameObject bullet = new BulletClass(null, bulletImg, 700f, global.rotation);
 
 				MthLib.Vector3 offset = new MthLib.Vector3(0f, imgSize.y, 0f);
 				//Create rotation matrix
