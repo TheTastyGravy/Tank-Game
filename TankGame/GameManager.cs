@@ -24,14 +24,15 @@ namespace TankGame
 
 		static void Main()
 		{
-			//***** Change to make window size dependant on screen size *****
-
-			//Set screen limits
-			screenBox[0] = new MthLib.Vector3(0, 0, 0);
-			screenBox[1] = new MthLib.Vector3(1200, 1000, 0);
 			//Set up window
 			rl.Raylib.InitWindow(1200, 1000, "Tank Game");
 			rl.Raylib.SetTargetFPS(60);
+			//Set screen limits. Cant get the monitor size untill after InitWindow has been called
+			screenBox[0] = new MthLib.Vector3(0, 0, 0);
+			screenBox[1] = new MthLib.Vector3((float)rl.Raylib.GetMonitorWidth(0) * 0.5f, (float)rl.Raylib.GetMonitorHeight(0) * 0.7f, 0f);
+			//Resize window to correct size
+			rl.Raylib.SetWindowSize((int)screenBox[1].x, (int)screenBox[1].y);
+
 			//Set image directory
 			imageDir = System.IO.Directory.GetParent(@"../.").FullName + @"\Images\";
 			//Create nessesary objects
