@@ -26,14 +26,22 @@ namespace TankGame
 
 		public override void Update(float deltaTime)
 		{
-			//***** Change to look at mouse *****
+			//***** Look with mouse *****
+			//Get the difference between the mouse and the turret
+			MthLib.Vector3 diff = new MthLib.Vector3(rl.Raylib.GetMouseX(), rl.Raylib.GetMouseY(), 0f);
+			diff -= global.point;
+			//Remove the parents rotation and add the rotation of the mouse relative to the tank. 90 is added because Atan2 starts at 90 degrees
+			local.rotation = 90 - (global.rotation - local.rotation) + (float)Math.Atan2(diff.y, diff.x) * (float)(180/Math.PI);
 
+			//***** Look with keys *****
+			/*
 			//Turn left
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_Q))
 				local.rotation -= rotSpeed * deltaTime;
 			//Turn right
 			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_E))
 				local.rotation += rotSpeed * deltaTime;
+			*/
 
 			//Fix rotation to not loop around
 			if (local.rotation < 0f)
@@ -41,8 +49,9 @@ namespace TankGame
 			else if (local.rotation > 360f)
 				local.rotation -= 360f;
 
+
 			//Create bullet at the top of the barrel
-			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_SPACE))
+			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_SPACE) || rl.Raylib.IsMouseButtonPressed(rl.MouseButton.MOUSE_LEFT_BUTTON))
 			{
 				GameObject bullet = new BulletClass(null, bulletImg, 700f, global.rotation);
 
