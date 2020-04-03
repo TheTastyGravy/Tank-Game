@@ -79,7 +79,5 @@ namespace TankGame
 			//Rotate movement and update local
 			local.point += rotMatrix * move;
 		}
-
-
 	}
 }

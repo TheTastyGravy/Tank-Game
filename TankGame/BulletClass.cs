@@ -39,10 +39,6 @@ namespace TankGame
 				//Free memory and remove the object from all lists
 				FreeMemory();
 			}
-			
 		}
-
-
-
 	}
 }

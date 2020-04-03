@@ -55,10 +55,7 @@ namespace TankGame
 
 				bullet.SetLocation(global.point.x - offset.x, global.point.y - offset.y);
 			}
-
-
 		}
-
 
 		public override void FreeMemory()
 		{
@@ -66,6 +63,5 @@ namespace TankGame
 			rl.Raylib.UnloadImage(bulletImg);
 			base.FreeMemory();
 		}
-
 	}
 }

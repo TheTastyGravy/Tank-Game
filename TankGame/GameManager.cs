@@ -22,23 +22,20 @@ namespace TankGame
 		public static MthLib.Vector3[] screenBox = new MthLib.Vector3[2];
 
 
-
 		static void Main()
 		{
 			//***** Change to make window size dependant on screen size *****
 
+			//Set screen limits
 			screenBox[0] = new MthLib.Vector3(0, 0, 0);
 			screenBox[1] = new MthLib.Vector3(1200, 1000, 0);
-
 			//Set up window
 			rl.Raylib.InitWindow(1200, 1000, "Tank Game");
 			rl.Raylib.SetTargetFPS(60);
 			//Set image directory
 			imageDir = System.IO.Directory.GetParent(@"../.").FullName + @"\Images\";
-
 			//Create nessesary objects
 			StartGame();
-
 
 			while(!rl.Raylib.WindowShouldClose())
 			{
@@ -61,14 +58,12 @@ namespace TankGame
 				rl.Raylib.EndDrawing();
 			}
 			
-
 			//Free all memory before closing. Because the object is removed from the list, 0 should always be used
 			for (int i = 0; i < coreObjects.Count; i++)
 				coreObjects[0].FreeMemory();
 			
 			rl.Raylib.CloseWindow();
 		}
-
 
 		private static void StartGame()
 		{
@@ -83,7 +78,5 @@ namespace TankGame
 			new TurretClass(tank, img, 50, @"Bullets\bulletBeige.png");
 			rl.Raylib.UnloadImage(img);
 		}
-
-
 	}
 }
