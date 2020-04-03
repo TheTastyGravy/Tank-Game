@@ -18,20 +18,37 @@ namespace TankGame
 		public Transform global;
 
 		public rl.Texture2D image;
-
+		//Used to determine what part of the image to draw
+		private readonly rl.Rectangle sourceRec;
+		//Used When drawing
+		protected readonly rl.Vector2 imgSize;
+		protected rl.Vector2 origin;
+		
 
 		/// <summary>
-		/// Instantiate the object. The image should be set imediatly after an object is created
+		/// Instantiate the object
 		/// </summary>
 		/// <param name="parent">The object this is a child of. Pass null if it has no parent</param>
-		public GameObject(GameObject parent)
+		/// <param name="image">The image this object should be displayed as</param>
+		public GameObject(GameObject parent, rl.Image image)
 		{
 			//Add this to list in game manager
 			GameManager.objects.Add(this);
-			//Set local to 0
-			local.point = new MthLib.Vector3();
+			//Set local and global to 0
+			local.point = new MthLib.Vector3(0, 0, 0);
 			local.rotation = 0f;
+			global.point = new MthLib.Vector3(0, 0, 0);
+			global.rotation = 0f;
 
+			//Set image and relevant drawing values
+			this.image = rl.Raylib.LoadTextureFromImage(image);
+			imgSize = new rl.Vector2(this.image.width, this.image.height);
+			sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
+
+			//If origin hasnt been set in the derived constructor, use center
+			if (origin == null || origin == rl.Vector2.Zero)
+				origin = imgSize / 2;
+			
 			//If the object has a parent, add this object to its children
 			if (parent != null)
 			{
@@ -62,7 +79,7 @@ namespace TankGame
 				global = local;
 
 			//Draw object
-			rl.Raylib.DrawTextureEx(image, new rl.Vector2(global.point.x, global.point.y), global.rotation, 1f, rl.Color.WHITE);
+			rl.Raylib.DrawTexturePro(image, sourceRec, new rl.Rectangle(global.point.x, global.point.y, imgSize.x, imgSize.y), origin, global.rotation, rl.Color.WHITE);
 
 			foreach (GameObject child in children)
 			{
@@ -75,6 +92,14 @@ namespace TankGame
 		}
 		
 		/// <summary>
+		/// Set the local location of the object
+		/// </summary>
+		public void SetLocation(float x, float y)
+		{
+			local.point = new MthLib.Vector3(x, y, 0f);
+		}
+
+		/// <summary>
 		/// Release memory for this object and its children so it can be destroyed
 		/// </summary>
 		public virtual void FreeMemory()
@@ -85,6 +110,11 @@ namespace TankGame
 			{
 				child.FreeMemory();
 			}
+
+			//Remove the object from the object lists. The garbage collector will then release this memory
+			GameManager.objects.Remove(this);
+			if (!hasParent)
+				GameManager.coreObjects.Remove(this);
 		}
 	}
 
@@ -96,7 +126,7 @@ namespace TankGame
 	{
 		public MthLib.Vector3 point;
 		/// <summary>
-		/// The rotation in radians clockwise from up
+		/// The rotation in degrees clockwise from up
 		/// </summary>
 		public float rotation;
 	}
