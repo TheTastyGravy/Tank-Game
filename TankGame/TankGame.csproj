@@ -141,6 +141,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)Raylib\dll\raylib.dll $(TargetDir)
-</PreBuildEvent>
+copy $(SolutionDir)TankGame\MathLibrary.dll $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
 </Project>

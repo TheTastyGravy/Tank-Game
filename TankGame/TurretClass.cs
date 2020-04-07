@@ -13,6 +13,7 @@ namespace TankGame
 		private readonly rl.Image bulletImg;
 
 
+		/// <param name="bulletPath">File path from \Images\ to the image used for this turret's bullets</param>
 		public TurretClass(GameObject parent, rl.Image image, float rotSpeed, string bulletPath) : base(parent, image)
 		{
 			this.rotSpeed = rotSpeed;

@@ -70,7 +70,7 @@ namespace TankGame
 		{
 			//Create tank object, set its location, and add it to the nesessary lists
 			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
-			GameObject tank = new TankClass(null, img, 8, 40, 50);
+			GameObject tank = new TankClass(null, img, 5, 25, 80);
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(600, 500);
 			
