@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulletClass.cs" />
+    <Compile Include="CollisionFuncs.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="TankClass.cs" />
