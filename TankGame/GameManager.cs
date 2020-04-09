@@ -44,10 +44,8 @@ namespace TankGame
 
 				//Foreach will result in an exception when something is added to the list, which happens while shooting, so for has to be used
 				for (int i = 0; i < objects.Count; i++)
-				{
 					objects[i].Update(deltaTime);
-				}
-
+				
 				//Clear background and show fps before drawing objects
 				rl.Raylib.BeginDrawing();
 				rl.Raylib.ClearBackground(rl.Color.WHITE);
@@ -69,22 +67,26 @@ namespace TankGame
 		private static void StartGame()
 		{
 			//Create tank object, set its location, and add it to the nesessary lists
-			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
-			GameObject tank = new TankClass(null, img, 5, 25, 80, "p1");
+			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBlue.png");
+			GameObject tank = new TankClass(null, img, 5, 25, 80, "p1", new rl.KeyboardKey[4] { rl.KeyboardKey.KEY_W, rl.KeyboardKey.KEY_S, rl.KeyboardKey.KEY_A, rl.KeyboardKey.KEY_D });
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(600, 500);
 			
 			//Create turret object as a child of tank
-			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBeige.png");
-			new TurretClass(tank, img, 50, @"Bullets\bulletBeige.png");
+			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBlue.png");
+			new TurretClass(tank, img, 100, @"Bullets\bulletBlue.png", new rl.KeyboardKey[3] { rl.KeyboardKey.KEY_Q, rl.KeyboardKey.KEY_E, rl.KeyboardKey.KEY_SPACE });
 			rl.Raylib.UnloadImage(img);
 
 
-			//Create tank object, set its location, and add it to the nesessary lists
-			img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
-			GameObject tank2 = new TankClass(null, img, 0, 0, 0, "p2");
+			//Create a second tank with different controls
+			img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankRed.png");
+			tank = new TankClass(null, img, 5, 25, 80, "p2", new rl.KeyboardKey[4] { rl.KeyboardKey.KEY_I, rl.KeyboardKey.KEY_K, rl.KeyboardKey.KEY_J, rl.KeyboardKey.KEY_L });
 			rl.Raylib.UnloadImage(img);
-			tank2.SetLocation(800, 200);
+			tank.SetLocation(800, 200);
+
+			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelRed.png");
+			new TurretClass(tank, img, 100, @"Bullets\bulletRed.png", new rl.KeyboardKey[3] { rl.KeyboardKey.KEY_U, rl.KeyboardKey.KEY_O, rl.KeyboardKey.KEY_N });
+			rl.Raylib.UnloadImage(img);
 		}
 	}
 }

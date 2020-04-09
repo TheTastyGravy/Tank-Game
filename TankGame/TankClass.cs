@@ -26,8 +26,14 @@ namespace TankGame
 		private float speed = 0f;
 		private float accel = 0f;
 
+		//Controls
+		private readonly rl.KeyboardKey up = rl.KeyboardKey.KEY_W;
+		private readonly rl.KeyboardKey down = rl.KeyboardKey.KEY_S;
+		private readonly rl.KeyboardKey left = rl.KeyboardKey.KEY_A;
+		private readonly rl.KeyboardKey right = rl.KeyboardKey.KEY_D;
 
-		public TankClass(GameObject parent, rl.Image image, float maxSpeed, float acceleration, float rotSpeed, string name) : base(parent, image)
+
+		public TankClass(GameObject parent, rl.Image image, float maxSpeed, float acceleration, float rotSpeed, string name, rl.KeyboardKey[] controls) : base(parent, image)
 		{
 			tag = "Tank";
 			this.maxSpeed = maxSpeed;
@@ -38,6 +44,11 @@ namespace TankGame
 			//Set OBB half extents
 			collider.m1 = imgSize.x / 2;
 			collider.m5 = imgSize.y / 2;
+
+			up = controls[0];
+			down = controls[1];
+			left = controls[2];
+			right = controls[3];
 		}
 
 		protected override void UpdateColliderLoc()
@@ -50,10 +61,10 @@ namespace TankGame
 		public override void Update(float deltaTime)
 		{
 			//Turn left
-			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_A))
+			if (rl.Raylib.IsKeyDown(left))
 				local.rotation -= rotSpeed * deltaTime;
 			//Turn right
-			if (rl.Raylib.IsKeyDown(rl.KeyboardKey.KEY_D))
+			if (rl.Raylib.IsKeyDown(right))
 				local.rotation += rotSpeed * deltaTime;
 
 			//Fix rotation to not loop around
@@ -64,14 +75,14 @@ namespace TankGame
 
 
 			//Forward
-			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_W))
+			if (rl.Raylib.IsKeyPressed(up))
 				accel -= acceleration;
-			if (rl.Raylib.IsKeyReleased(rl.KeyboardKey.KEY_W))
+			if (rl.Raylib.IsKeyReleased(up))
 				accel += acceleration;
 			//Backward
-			if (rl.Raylib.IsKeyPressed(rl.KeyboardKey.KEY_S))
+			if (rl.Raylib.IsKeyPressed(down))
 				accel += acceleration;
-			if (rl.Raylib.IsKeyReleased(rl.KeyboardKey.KEY_S))
+			if (rl.Raylib.IsKeyReleased(down))
 				accel -= acceleration;
 
 			//When accel is 0, reduce speed to 0
@@ -157,7 +168,6 @@ namespace TankGame
 						return;
 					}
 				}
-				
 			}
 		}
 
