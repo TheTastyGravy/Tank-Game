@@ -19,7 +19,7 @@ namespace TankGame
 		//Directory to the image folder
 		public static string imageDir;
 		//Min and max points of the screen
-		public static MthLib.Vector3[] screenBox = new MthLib.Vector3[2];
+		public static AABB screenBox = new AABB();
 
 
 		static void Main()
@@ -28,10 +28,10 @@ namespace TankGame
 			rl.Raylib.InitWindow(1200, 1000, "Tank Game");
 			rl.Raylib.SetTargetFPS(60);
 			//Set screen limits. Cant get the monitor size untill after InitWindow has been called
-			screenBox[0] = new MthLib.Vector3(0, 0, 0);
-			screenBox[1] = new MthLib.Vector3((float)rl.Raylib.GetMonitorWidth(0) * 0.5f, (float)rl.Raylib.GetMonitorHeight(0) * 0.7f, 0f);
+			screenBox.min = new MthLib.Vector3(0, 0, 0);
+			screenBox.max = new MthLib.Vector3((float)rl.Raylib.GetMonitorWidth(0) * 0.5f, (float)rl.Raylib.GetMonitorHeight(0) * 0.7f, 0f);
 			//Resize window to correct size
-			rl.Raylib.SetWindowSize((int)screenBox[1].x, (int)screenBox[1].y);
+			rl.Raylib.SetWindowSize((int)screenBox.max.x, (int)screenBox.max.y);
 
 			//Set image directory
 			imageDir = System.IO.Directory.GetParent(@"../.").FullName + @"\Images\";

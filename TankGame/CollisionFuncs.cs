@@ -5,7 +5,7 @@ using MthLib = MathLibrary;
 
 namespace TankGame
 {
-	class CollisonFuncs
+	class CollisionFuncs
 	{
 
 		public static MthLib.Matrix3 AABBtoOBB(AABB aabb)
@@ -42,14 +42,14 @@ namespace TankGame
 		}
 
 
-		public bool PointAABBcolliding(MthLib.Vector3 point, AABB aabb)
+		public static bool PointAABBcolliding(MthLib.Vector3 point, AABB aabb)
 		{
 			//Return NOT outside the collider
 			return !(point.x < aabb.min.x || point.y < aabb.min.y || 
 					 point.x > aabb.max.x || point.y > aabb.max.y);
 		}
 
-		public bool PointOBBcolliding(MthLib.Vector3 point, MthLib.Matrix3 obb)
+		public static bool PointOBBcolliding(MthLib.Vector3 point, MthLib.Matrix3 obb)
 		{
 			//Find nessesary values
 			MthLib.Vector3 diff = point - new MthLib.Vector3(obb.m3, obb.m6, 0);

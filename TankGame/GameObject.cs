@@ -97,6 +97,13 @@ namespace TankGame
 		public void SetLocation(float x, float y)
 		{
 			local.point = new MthLib.Vector3(x, y, 0f);
+			//Update the collider to the new local position
+			this.UpdateColliderLoc();
+		}
+
+		//Can be overriden by classes with colliders
+		protected virtual void UpdateColliderLoc()
+		{
 		}
 
 		/// <summary>

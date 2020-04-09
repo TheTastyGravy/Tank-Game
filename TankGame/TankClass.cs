@@ -17,6 +17,8 @@ namespace TankGame
 		//The threshhold where speed will be set to 0 if accel = 0
 		private readonly float limit = 0.5f;
 
+		public MthLib.Matrix3 collider = new MthLib.Matrix3();
+
 		private float speed = 0f;
 		private float accel = 0f;
 
@@ -26,6 +28,17 @@ namespace TankGame
 			this.maxSpeed = maxSpeed;
 			this.acceleration = acceleration;
 			this.rotSpeed = rotSpeed;
+
+			//Set OBB half extents
+			collider.m1 = imgSize.x / 2;
+			collider.m5 = imgSize.y / 2;
+		}
+
+		protected override void UpdateColliderLoc()
+		{
+			//This will ignore global, but only core objects should have collision anyway
+			collider.m3 = local.point.x;
+			collider.m6 = local.point.y;
 		}
 
 		public override void Update(float deltaTime)
@@ -78,6 +91,41 @@ namespace TankGame
 
 			//Rotate movement and update local
 			local.point += rotMatrix * move;
+			//Check for collision
+			Collision();
+		}
+
+		private void Collision()
+		{
+			//Update collider location and rotation
+			UpdateColliderLoc();
+			//Rotation matrix of the difference in rotation
+			MthLib.Matrix3 rotMatrix = new MthLib.Matrix3();
+			rotMatrix.SetRotateZ((local.rotation - global.rotation) * (float)(Math.PI / 180f));
+			//Rotate the extents, then put them back in the matrix
+			MthLib.Vector3 x = new MthLib.Vector3(collider.m1, collider.m4, 0);
+			x = rotMatrix * x;
+			collider.m1 = x.x;
+			collider.m4 = x.y;
+			MthLib.Vector3 y = new MthLib.Vector3(collider.m2, collider.m5, 0);
+			y = rotMatrix * y;
+			collider.m2 = y.x;
+			collider.m5 = y.y;
+
+			//Get an AABB for rough collision before using OBB
+			AABB aabb = CollisionFuncs.OBBtoAABB(collider);
+
+			//Check if going out of bounds. Because the tank needs to stay inside, just AABB needs to be tested
+			if (!CollisionFuncs.AABBcolliding(aabb, GameManager.screenBox))
+				//Tank is out of bounds; reset transform
+				local = global;
+			
+
+
+
+
+
+
 		}
 	}
 }

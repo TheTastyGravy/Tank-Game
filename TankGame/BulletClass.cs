@@ -31,10 +31,8 @@ namespace TankGame
 			local.point += rotMatrix * move;
 
 
-			//Basic point-AABB collision
-			//If less then min OR greater than max
-			if (global.point.x < GameManager.screenBox[0].x || global.point.y < GameManager.screenBox[0].y
-			 || global.point.x > GameManager.screenBox[1].x || global.point.y > GameManager.screenBox[1].y)
+			//Check if its outside
+			if (!CollisionFuncs.PointAABBcolliding(global.point, GameManager.screenBox))
 			{
 				//Free memory and remove the object from all lists
 				FreeMemory();
