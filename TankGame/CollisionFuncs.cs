@@ -32,7 +32,11 @@ namespace TankGame
 			float yExtent = Math.Abs(obb.m2) + Math.Abs(obb.m5);
 
 			//Find the bounding corners
-			AABB res = new AABB();
+			AABB res = new AABB
+			{
+				min = new MthLib.Vector3(),
+				max = new MthLib.Vector3()
+			};
 			res.min.x = obb.m3 - xExtent;
 			res.min.y = obb.m6 - yExtent;
 			res.max.x = obb.m3 + xExtent;
@@ -40,6 +44,7 @@ namespace TankGame
 
 			return res;
 		}
+
 
 
 		public static bool PointAABBcolliding(MthLib.Vector3 point, AABB aabb)
@@ -63,11 +68,22 @@ namespace TankGame
 		}
 
 
+
 		public static bool AABBcolliding(AABB obj1, AABB obj2)
 		{
 			return !(obj1.max.x < obj2.min.x || obj1.max.y < obj2.min.y || 
 					 obj1.min.x > obj2.max.x || obj1.min.y > obj2.max.y);
 		}
+
+		/// <summary>
+		/// Check if obj1 is fully within obj2
+		/// </summary>
+		public static bool AABBwithin(AABB obj1, AABB obj2)
+		{
+			return (obj1.min.x > obj2.min.x && obj1.min.y > obj2.min.y &&
+					obj1.max.x < obj2.max.x && obj1.max.y < obj2.max.y);
+		}
+
 
 
 		//Use for reference to SAT algorithm

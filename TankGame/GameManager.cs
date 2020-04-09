@@ -70,7 +70,7 @@ namespace TankGame
 		{
 			//Create tank object, set its location, and add it to the nesessary lists
 			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
-			GameObject tank = new TankClass(null, img, 5, 25, 80);
+			GameObject tank = new TankClass(null, img, 5, 25, 80, "p1");
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(600, 500);
 			
@@ -78,6 +78,13 @@ namespace TankGame
 			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBeige.png");
 			new TurretClass(tank, img, 50, @"Bullets\bulletBeige.png");
 			rl.Raylib.UnloadImage(img);
+
+
+			//Create tank object, set its location, and add it to the nesessary lists
+			img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBeige.png");
+			GameObject tank2 = new TankClass(null, img, 0, 0, 0, "p2");
+			rl.Raylib.UnloadImage(img);
+			tank2.SetLocation(800, 200);
 		}
 	}
 }

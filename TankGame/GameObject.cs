@@ -23,6 +23,9 @@ namespace TankGame
 		//Used When drawing
 		protected readonly rl.Vector2 imgSize;
 		protected rl.Vector2 origin;
+
+		//Used to identify the type of object in collision
+		public string tag;
 		
 
 		/// <summary>

@@ -17,17 +17,23 @@ namespace TankGame
 		//The threshhold where speed will be set to 0 if accel = 0
 		private readonly float limit = 0.5f;
 
+		//Used to display winner
+		private readonly string name;
+		private int hp = 5;
+
 		public MthLib.Matrix3 collider = new MthLib.Matrix3();
 
 		private float speed = 0f;
 		private float accel = 0f;
 
 
-		public TankClass(GameObject parent, rl.Image image, float maxSpeed, float acceleration, float rotSpeed) : base(parent, image)
+		public TankClass(GameObject parent, rl.Image image, float maxSpeed, float acceleration, float rotSpeed, string name) : base(parent, image)
 		{
+			tag = "Tank";
 			this.maxSpeed = maxSpeed;
 			this.acceleration = acceleration;
 			this.rotSpeed = rotSpeed;
+			this.name = name;
 
 			//Set OBB half extents
 			collider.m1 = imgSize.x / 2;
@@ -112,20 +118,60 @@ namespace TankGame
 			collider.m2 = y.x;
 			collider.m5 = y.y;
 
+
 			//Get an AABB for rough collision before using OBB
 			AABB aabb = CollisionFuncs.OBBtoAABB(collider);
 
 			//Check if going out of bounds. Because the tank needs to stay inside, just AABB needs to be tested
-			if (!CollisionFuncs.AABBcolliding(aabb, GameManager.screenBox))
+			if (!CollisionFuncs.AABBwithin(aabb, GameManager.screenBox))
+			{
 				//Tank is out of bounds; reset transform
 				local = global;
+				return;
+			}
 			
+			//Go through all core objects and check for collision with other tanks
+			foreach (GameObject obj in GameManager.coreObjects)
+			{
+				//If it isnt a tank, move on
+				if (obj.tag != "Tank")
+					continue;
+
+				TankClass tank = obj as TankClass;
+				//If the tank is this tank, move on
+				if (tank == this)
+					continue;
 
 
+				//At this point, the tank must be a different tank, so it can be collided with
+				//The collider is OBB, so it needs to be made an AABB
+				AABB otherAABB = CollisionFuncs.OBBtoAABB(tank.collider);
 
+				if (CollisionFuncs.AABBcolliding(aabb, otherAABB))
+				{
+					//If they are colliding, check OBB collision
+					if (CollisionFuncs.OBBcolliding(collider, tank.collider))
+					{
+						//They are colliding, so reset transform
+						local = global;
+						return;
+					}
+				}
+				
+			}
+		}
 
-
-
+		/// <summary>
+		/// Reduce hp and check if it has reached 0
+		/// </summary>
+		public void Hit()
+		{
+			hp--;
+			if (hp == 0)
+			{
+				Console.WriteLine(name + " has been destroyed");
+				FreeMemory();
+			}
 		}
 	}
 }
