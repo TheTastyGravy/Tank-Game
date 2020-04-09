@@ -8,7 +8,7 @@ namespace TankGame
 {
 	class BulletClass : GameObject
 	{
-		private float speed = 250f;
+		private readonly float speed = 250f;
 
 
 		public BulletClass(GameObject parent, rl.Image image, float speed, float rotation) : base(parent, image)

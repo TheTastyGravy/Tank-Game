@@ -42,6 +42,26 @@ namespace TankGame
 		}
 
 
+		public bool PointAABBcolliding(MthLib.Vector3 point, AABB aabb)
+		{
+			//Return NOT outside the collider
+			return !(point.x < aabb.min.x || point.y < aabb.min.y || 
+					 point.x > aabb.max.x || point.y > aabb.max.y);
+		}
+
+		public bool PointOBBcolliding(MthLib.Vector3 point, MthLib.Matrix3 obb)
+		{
+			//Find nessesary values
+			MthLib.Vector3 diff = point - new MthLib.Vector3(obb.m3, obb.m6, 0);
+			MthLib.Vector3 xExtent = new MthLib.Vector3(obb.m1, obb.m4, 0);
+			MthLib.Vector3 yExtent = new MthLib.Vector3(obb.m2, obb.m5, 0);
+			//Check if the point is within the extents
+			bool insideX = Math.Abs(diff.Dot(xExtent)) > xExtent.Magnitude();
+			bool insideY = Math.Abs(diff.Dot(yExtent)) > yExtent.Magnitude();
+			//If it is within both, it is inside the OBB
+			return (insideX && insideY);
+		}
+
 
 		public static bool AABBcolliding(AABB obj1, AABB obj2)
 		{
@@ -52,7 +72,6 @@ namespace TankGame
 
 		//Use for reference to SAT algorithm
 		//https://www.habrador.com/tutorials/math/7-rectangle-rectangle-intersection/
-
 
 		public static bool OBBcolliding(MthLib.Matrix3 obj1, MthLib.Matrix3 obj2)
 		{
