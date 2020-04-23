@@ -16,6 +16,14 @@ namespace TankGame
 		//List of all objects without a parent
 		public static List<GameObject> coreObjects = new List<GameObject>();
 
+		/* Before an object can be drawn, its global transform needs to be updated. This can only be done after
+		 * all objects have been updated (run their game logic), and an object's parent must have already updated
+		 * their global before the child can update theirs. To ensure this happens, the global transform is updated
+		 * in the draw function, which is called using coreObjects. After a parent updates its global, it will
+		 * update its childrens globals, then call drawn on them. This results in all objects being drawn with the
+		 * correct global transform, and is the reason for having two object lists.
+		 */
+
 		//Directory to the image folder
 		public static string imageDir;
 		//Min and max points of the screen
@@ -25,7 +33,7 @@ namespace TankGame
 		static void Main()
 		{
 			//Set up window
-			rl.Raylib.InitWindow(1200, 1000, "Tank Game");
+			rl.Raylib.InitWindow(1200, 1000, "Fish Tanks");
 			rl.Raylib.SetTargetFPS(60);
 			//Set screen limits. Cant get the monitor size untill after InitWindow has been called
 			screenBox.min = new MthLib.Vector3(0, 0, 0);
@@ -38,6 +46,8 @@ namespace TankGame
 			//Create nessesary objects
 			StartGame();
 
+
+			//Game loop
 			while(!rl.Raylib.WindowShouldClose())
 			{
 				float deltaTime = rl.Raylib.GetFrameTime();
@@ -57,6 +67,7 @@ namespace TankGame
 				rl.Raylib.EndDrawing();
 			}
 			
+
 			//Free all memory before closing. Because the object is removed from the list, 0 should always be used
 			for (int i = 0; i < coreObjects.Count; i++)
 				coreObjects[0].FreeMemory();
@@ -66,14 +77,15 @@ namespace TankGame
 
 		private static void StartGame()
 		{
-			//Create tank object, set its location, and add it to the nesessary lists
+			//Create tank object and set its location
 			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBlue.png");
 			GameObject tank = new TankClass(null, img, 5, 25, 80, "p1", new rl.KeyboardKey[4] { rl.KeyboardKey.KEY_W, rl.KeyboardKey.KEY_S, rl.KeyboardKey.KEY_A, rl.KeyboardKey.KEY_D });
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(600, 500);
-			
+
 			//Create turret object as a child of tank
-			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelBlue.png");
+			img = rl.Raylib.LoadImage(imageDir + @"fish_blue.png");
+			rl.Raylib.ImageRotateCCW(ref img);
 			new TurretClass(tank, img, 100, @"Bullets\bulletBlue.png", new rl.KeyboardKey[3] { rl.KeyboardKey.KEY_Q, rl.KeyboardKey.KEY_E, rl.KeyboardKey.KEY_SPACE });
 			rl.Raylib.UnloadImage(img);
 
@@ -84,9 +96,16 @@ namespace TankGame
 			rl.Raylib.UnloadImage(img);
 			tank.SetLocation(800, 200);
 
-			img = rl.Raylib.LoadImage(imageDir + @"Tanks\barrelRed.png");
+			img = rl.Raylib.LoadImage(imageDir + @"fish_orange.png");
+			rl.Raylib.ImageRotateCCW(ref img);
 			new TurretClass(tank, img, 100, @"Bullets\bulletRed.png", new rl.KeyboardKey[3] { rl.KeyboardKey.KEY_U, rl.KeyboardKey.KEY_O, rl.KeyboardKey.KEY_N });
 			rl.Raylib.UnloadImage(img);
+
+
+			//Display controls
+			Console.WriteLine("\n\n");
+			Console.WriteLine("Player 1 moves with WASD, aims with QE and fires with SPACE");
+			Console.WriteLine("Player 2 moves with IJKL, aims with UO and fires with N");
 		}
 	}
 }

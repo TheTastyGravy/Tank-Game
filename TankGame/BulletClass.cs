@@ -9,6 +9,8 @@ namespace TankGame
 	class BulletClass : GameObject
 	{
 		private readonly float speed = 250f;
+		private bool hasHit = false;
+		private float count = 0f;
 
 
 		public BulletClass(GameObject parent, rl.Image image, float speed, float rotation) : base(parent, image)
@@ -19,18 +21,33 @@ namespace TankGame
 
 		public override void Update(float deltaTime)
 		{
-			//Set Vector3 to forward
-			MthLib.Vector3 move = new MthLib.Vector3(0f, -speed * deltaTime, 0f);
+			//While the bullet hasnt hit anything, be a bullet
+			if (!hasHit)
+			{
+				//Set Vector3 to forward
+				MthLib.Vector3 move = new MthLib.Vector3(0f, -speed * deltaTime, 0f);
 
-			//Create a rotation matrix
-			MthLib.Matrix3 rotMatrix = new MthLib.Matrix3();
-			//MathLibrary uses radians, while Raylib uses degrees
-			rotMatrix.SetRotateZ(local.rotation * (float)(Math.PI / 180f));
+				//Create a rotation matrix
+				MthLib.Matrix3 rotMatrix = new MthLib.Matrix3();
+				//MathLibrary uses radians, while Raylib uses degrees
+				rotMatrix.SetRotateZ(local.rotation * (float)(Math.PI / 180f));
 
-			//Rotate movement to be in the dirrection the bullet is facing, and update local
-			local.point += rotMatrix * move;
-			//Check for collision
-			Collision();
+				//Rotate movement to be in the dirrection the bullet is facing, and update local
+				local.point += rotMatrix * move;
+				//Check for collision
+				Collision();
+			}
+			else
+			{
+				//Display smoke for set amount of time, then delete object
+				count += deltaTime;
+				if (count >= 0.1f)
+				{
+					//Destroy the bullet
+					FreeMemory();
+					return;
+				}
+			}
 		}
 
 		private void Collision()
@@ -61,11 +78,16 @@ namespace TankGame
 					//If they are colliding, check OBB collision
 					if (CollisionFuncs.PointOBBcolliding(global.point, tank.collider))
 					{
-						//hit the tank
-						Console.WriteLine("hit");
 						tank.Hit();
-						//Destroy the bullet
-						FreeMemory();
+
+						//Enter 'smoke mode' to display an explosion for a short time before destroying itself
+						hasHit = true;
+						image = rl.Raylib.LoadTexture(GameManager.imageDir + @"Smoke\smokeOrange0.png");
+						//Update image based values
+						imgSize = new rl.Vector2(image.width, image.height);
+						sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
+						origin = imgSize / 2;
+
 						return;
 					}
 				}

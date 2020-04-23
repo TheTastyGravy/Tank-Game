@@ -7,7 +7,6 @@ namespace TankGame
 {
 	class CollisionFuncs
 	{
-
 		public static MthLib.Matrix3 AABBtoOBB(AABB aabb)
 		{
 			MthLib.Matrix3 res = new MthLib.Matrix3
@@ -71,6 +70,7 @@ namespace TankGame
 
 		public static bool AABBcolliding(AABB obj1, AABB obj2)
 		{
+			//Return NOT outside the collider
 			return !(obj1.max.x < obj2.min.x || obj1.max.y < obj2.min.y || 
 					 obj1.min.x > obj2.max.x || obj1.min.y > obj2.max.y);
 		}
@@ -80,14 +80,12 @@ namespace TankGame
 		/// </summary>
 		public static bool AABBwithin(AABB obj1, AABB obj2)
 		{
+			//Return true if min AND max are inside
 			return (obj1.min.x > obj2.min.x && obj1.min.y > obj2.min.y &&
 					obj1.max.x < obj2.max.x && obj1.max.y < obj2.max.y);
 		}
 
 
-
-		//Use for reference to SAT algorithm
-		//https://www.habrador.com/tutorials/math/7-rectangle-rectangle-intersection/
 
 		public static bool OBBcolliding(MthLib.Matrix3 obj1, MthLib.Matrix3 obj2)
 		{
@@ -95,10 +93,10 @@ namespace TankGame
 			Rect rect1 = GetCorners(obj1);
 			Rect rect2 = GetCorners(obj2);
 
-			//4 axis have to be tewsted to know if they rae colliding
-			//If a single axis is not overlapping, they are colliding
+			//4 axis have to be tested to know if they are colliding
+			//If a single axis is not overlapping, they are not colliding
 
-			//Get the normal for the axis, and check for overlap on it
+			//Get the normal for the axis, then check for overlap on it
 			MthLib.Vector3 normal = GetNormal(rect1.BL, rect1.FL);
 			if (!IsOverlapping(normal, rect1, rect2))
 				return false;
@@ -115,7 +113,7 @@ namespace TankGame
 			if (!IsOverlapping(normal, rect1, rect2))
 				return false;
 
-			//If none of the axis have not overlapped, then they are colliding
+			//If all of the axis overlapped, then they are colliding
 			return true;
 		}
 
@@ -126,7 +124,7 @@ namespace TankGame
 			float dot2 = normal.Dot(rect1.FR);
 			float dot3 = normal.Dot(rect1.BL);
 			float dot4 = normal.Dot(rect1.BR);
-			//Find the furthast points
+			//Find the furthest points
 			float min1 = Math.Min(dot1, Math.Min(dot2, Math.Min(dot3, dot4)));
 			float max1 = Math.Max(dot1, Math.Max(dot2, Math.Max(dot3, dot4)));
 
@@ -138,12 +136,14 @@ namespace TankGame
 			float min2 = Math.Min(dot1, Math.Min(dot2, Math.Min(dot3, dot4)));
 			float max2 = Math.Max(dot1, Math.Max(dot2, Math.Max(dot3, dot4)));
 
-			//If the projections are overlapping, they are overlapping
+			//Are the projections overlapping?
 			return (min1 <= max2 && min2 <= max1);
 		}
 
 
-
+		/// <summary>
+		/// Returns the corner locations of an OBB
+		/// </summary>
 		private static Rect GetCorners(MthLib.Matrix3 obb)
 		{
 			//Get nessesary values
@@ -169,7 +169,6 @@ namespace TankGame
 			//Return the normal by flipping x and y and making one negitive
 			return new MthLib.Vector3(-dir.y, dir.x, dir.z);
 		}
-
 	}
 
 

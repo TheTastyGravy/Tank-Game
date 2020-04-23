@@ -179,6 +179,7 @@ namespace TankGame
 			hp--;
 			if (hp == 0)
 			{
+				//When destroyed, note in console and delete object
 				Console.WriteLine(name + " has been destroyed");
 				FreeMemory();
 			}
