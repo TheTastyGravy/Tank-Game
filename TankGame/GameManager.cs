@@ -43,6 +43,10 @@ namespace TankGame
 
 			//Set image directory
 			imageDir = System.IO.Directory.GetParent(@"../.").FullName + @"\Images\";
+			//If the directory does not exist, use the local dirrectory
+			if (!System.IO.Directory.Exists(imageDir))
+				imageDir = System.IO.Directory.GetCurrentDirectory() + @"\";
+			
 			//Create nessesary objects
 			StartGame();
 
