@@ -19,10 +19,13 @@ namespace TankGame
 
 		public rl.Texture2D image;
 		//Used to determine what part of the image to draw
-		private readonly rl.Rectangle sourceRec;
+		protected rl.Rectangle sourceRec;
 		//Used When drawing
-		protected readonly rl.Vector2 imgSize;
+		protected rl.Vector2 imgSize;
 		protected rl.Vector2 origin;
+
+		//Used to identify the type of object in collision
+		public string tag;
 		
 
 		/// <summary>
@@ -45,9 +48,8 @@ namespace TankGame
 			imgSize = new rl.Vector2(this.image.width, this.image.height);
 			sourceRec = new rl.Rectangle(0f, 0f, imgSize.x, imgSize.y);
 
-			//If origin hasnt been set in the derived constructor, use center
-			if (origin == null || origin == rl.Vector2.Zero)
-				origin = imgSize / 2;
+			//Set the origin to the center by default
+			origin = imgSize / 2;
 			
 			//If the object has a parent, add this object to its children
 			if (parent != null)
@@ -97,6 +99,13 @@ namespace TankGame
 		public void SetLocation(float x, float y)
 		{
 			local.point = new MthLib.Vector3(x, y, 0f);
+			//Update the collider to the new local position
+			this.UpdateColliderLoc();
+		}
+
+		//Can be overriden by classes with colliders
+		protected virtual void UpdateColliderLoc()
+		{
 		}
 
 		/// <summary>

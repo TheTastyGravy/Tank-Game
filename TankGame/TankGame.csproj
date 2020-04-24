@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -43,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulletClass.cs" />
+    <Compile Include="CollisionFuncs.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="TankClass.cs" />
@@ -141,6 +143,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)Raylib\dll\raylib.dll $(TargetDir)
-</PreBuildEvent>
+copy $(SolutionDir)TankGame\MathLibrary.dll $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
 </Project>
