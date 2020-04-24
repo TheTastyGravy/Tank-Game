@@ -85,7 +85,7 @@ namespace TankGame
 			rl.Image img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankBlue.png");
 			GameObject tank = new TankClass(null, img, 5, 25, 80, "p1", new rl.KeyboardKey[4] { rl.KeyboardKey.KEY_W, rl.KeyboardKey.KEY_S, rl.KeyboardKey.KEY_A, rl.KeyboardKey.KEY_D });
 			rl.Raylib.UnloadImage(img);
-			tank.SetLocation(600, 500);
+			tank.SetLocation(rl.Raylib.GetScreenWidth() * 0.3f, rl.Raylib.GetScreenHeight() * 0.5f);
 
 			//Create turret object as a child of tank
 			img = rl.Raylib.LoadImage(imageDir + @"fish_blue.png");
@@ -98,7 +98,7 @@ namespace TankGame
 			img = rl.Raylib.LoadImage(imageDir + @"Tanks\tankRed.png");
 			tank = new TankClass(null, img, 5, 25, 80, "p2", new rl.KeyboardKey[4] { rl.KeyboardKey.KEY_I, rl.KeyboardKey.KEY_K, rl.KeyboardKey.KEY_J, rl.KeyboardKey.KEY_L });
 			rl.Raylib.UnloadImage(img);
-			tank.SetLocation(800, 200);
+			tank.SetLocation(rl.Raylib.GetScreenWidth() * 0.7f, rl.Raylib.GetScreenHeight() * 0.5f);
 
 			img = rl.Raylib.LoadImage(imageDir + @"fish_orange.png");
 			rl.Raylib.ImageRotateCCW(ref img);
